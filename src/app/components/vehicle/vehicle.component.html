@@ -1,0 +1,62 @@
+<input [(ngModel)]="fbUser" type="text" placeholder="fbUser">
+<input [(ngModel)]="vehicleId" type="text" placeholder="ID">
+<button (click)="addVehicle()">Add Vehicle</button>
+<button (click)="deleteVehicle()">Delete Vehicle</button>
+<button (click)="updateVehicles()">Update Vehicles</button>
+<button (click)="getActiveVehicles(1)">Get Active Vehicles</button>
+<button (click)="getActiveVehicles(0)">Get Deleted Vehicles</button>
+<button (click)="getActiveVehicle()">Get Vehicle</button>
+<br><br>
+<button (click)="saveActiveVehicles()">Save Record</button>
+
+
+<mat-tab-group>
+    <mat-tab label="Active"> 
+        <div class="example-container mat-elevation-z8">
+                <mat-table #table [dataSource]="dataSource" >                   
+                        <ng-container matColumnDef="VehicleId">
+                            <mat-header-cell *matHeaderCellDef> {{displayedColumns[0]}} </mat-header-cell>
+                            <mat-cell *matCellDef="let element"
+                            [ngStyle]="{'background-color': element.Status == 0?'red':''}"> {{element.VehicleId}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="Name">
+                                <mat-header-cell *matHeaderCellDef> {{displayedColumns[1]}} </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="Specs">
+                                <mat-header-cell *matHeaderCellDef> {{displayedColumns[2]}} </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.Specs}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="URL">
+                                <mat-header-cell *matHeaderCellDef> {{displayedColumns[3]}} </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.URL}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="FBUser">
+                                <mat-header-cell *matHeaderCellDef> {{displayedColumns[4]}} </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.FBUser}} </mat-cell>
+                        </ng-container>
+
+                        <!-- Checkbox Column -->
+                        <ng-container matColumnDef="Select">
+                            <mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                                            [checked]="selection.hasValue() && isAllSelected()"
+                                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                            (change)="$event ? selection.toggle(row) : null"
+                                            [checked]="selection.isSelected(row)">
+                            </mat-checkbox>
+                            </mat-cell>
+                        </ng-container>
+
+                
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row (click)="selection.toggle(row)" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+        </div>                                
+    </mat-tab>
+    <mat-tab label="Deleted"> Deleted </mat-tab>
+</mat-tab-group>
